@@ -37,5 +37,5 @@ schema.pre('save', async function(next){
     next();
 });
 
-const Message = new mongoose.model("message",schema);
+const Message = new monggose.model("message",schema);
 module.exports = Message;

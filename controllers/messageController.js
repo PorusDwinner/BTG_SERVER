@@ -1,3 +1,4 @@
+require('dotenv').config();
 const services = require('../services/messageService');
 
 module.exports.send_msg = async(req, res) => {
@@ -12,7 +13,7 @@ module.exports.mark_read = async(req, res) => {
     return await services.handleMarkMessageRead(req, res, params);
 };
 
-module.exports.get_msg = async(req, res) => {
+mmodule.exports.get_msg = async(req, res) => {
     const { recieverId, isRead } = req.body;
     let params = { recieverId, isRead };
     return await services.handleGetMessage(req, res, params);
