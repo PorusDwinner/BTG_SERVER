@@ -2,6 +2,7 @@ const express = require('express');
 const monggose = require('mongoose');
 const cookieParser = require('cookie-parser');
 const authRoutes = require('./routes/authRoute');
+const messageRoutes = require('./routes/messageRoute');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
@@ -23,3 +24,4 @@ mongoose.connect(process.env.URI)
 .catch (err => console.log(`Db connection failed : ${err}`));
 
 app.use(authRoutes);
+app.use(messageRoutes);
