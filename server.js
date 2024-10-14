@@ -8,8 +8,8 @@ require('dotenv').config();
 const port = process.env.PORT || 3002;
 
 const app = express();
+app.use(express.json());
 app.use(cookieParser());
-app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended : true }));
 
 // CONNECT TO DB => START SERVER IF CONNECTION SUCCESFULL

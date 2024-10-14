@@ -6,3 +6,5 @@ class NResposne {
         this.data = data;
     }
 };
+
+module.exports = { NResposne };
