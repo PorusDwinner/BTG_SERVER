@@ -23,7 +23,7 @@ module.exports.handleGetMessage = async (req, res, params) => {
                 []
             )
         };
-
+        //msg.message = decryptMessage(msg.message);
         return new NResponse(
             1,
             "Success",
@@ -165,3 +165,12 @@ module.exports.handleDeleteMessage = async (req, res, params) => {
         );
     }
 };
+
+// function decryptMessage(encryptedMessage) {
+//     const [ivHex, encryptedText] = encryptedMessage.split(':');
+//     const iv = Buffer.from(ivHex, 'hex');
+//     const decipher = crypto.createDecipheriv(algorithm, Buffer.from(secretKey), iv);
+//     let decrypted = decipher.update(encryptedText, 'hex', 'utf-8');
+//     decrypted += decipher.final('utf-8');
+//     return decrypted;
+// };
