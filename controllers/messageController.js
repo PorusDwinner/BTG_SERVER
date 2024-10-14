@@ -13,7 +13,7 @@ module.exports.mark_read = async(req, res) => {
     return await services.handleMarkMessageRead(req, res, params);
 };
 
-mmodule.exports.get_msg = async(req, res) => {
+module.exports.get_msg = async(req, res) => {
     const { recieverId, isRead } = req.body;
     let params = { recieverId, isRead };
     return await services.handleGetMessage(req, res, params);
