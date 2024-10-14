@@ -1,10 +1,9 @@
 const express = require('express');
-const monggose = require('mongoose');
+const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 const authRoutes = require('./routes/authRoute');
 const messageRoutes = require('./routes/messageRoute');
 const bodyParser = require('body-parser');
-const mongoose = require('mongoose');
 
 require('dotenv').config();
 const port = process.env.PORT || 3002;
