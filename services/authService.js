@@ -67,12 +67,13 @@ module.exports.handleLogin = async (req, res, params) => {
             ))
         };
 
-        const token = jwt.sign(
-            { id: user._id, email: user.email },
-            jwtKey,
-            { expiresIn: expiry }
-        );
+        // const token = jwt.sign(
+        //     { id: user._id, email: user.email },
+        //     jwtKey,
+        //     { expiresIn: expiry }
+        // );
 
+        const token = createToken(user._id, user.email);
         return res.status(200).json(new NResposne(
 
             1,
@@ -168,10 +169,10 @@ function handleErrors(err) {
     return errors;
 };
 
-function createToken(id) {
+function createToken(id, email) {
     return jwt.sign(
-        { id },
+        { id, email },
         jwtKey,
-        { expiresIn: 3 * 24 * 60 * 60 * 1000 }
+        { expiresIn: expiry }
     )
 };
