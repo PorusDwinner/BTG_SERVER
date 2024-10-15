@@ -30,6 +30,12 @@ const schema = new mongoose.Schema({
         type : Boolean,
         required : true,
         default : true
+    },
+    userMessage : {
+        type : String,
+    },
+    mentorMessage : {
+        type : String,
     }
 });
 

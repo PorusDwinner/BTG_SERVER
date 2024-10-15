@@ -1,10 +1,7 @@
 const Message = require('../models/messageModal');
 const User = require('../models/userModal');
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcrypt');
 const { NResponse } = require('../responses/response');
 require('dotenv').config();
-const jwtKey = process.env.JWT_SECRET;
 
 module.exports.handleGetMessage = async (req, res, params) => {
     const { recieverId, isRead } = params;

@@ -196,3 +196,39 @@ module.exports.handleApprove = async(req, res, params) => {
         ))
     };
 };
+
+module.exports.handleCancel = async(req, res, params) => {
+    try{
+        const { sessionId, message } = params;
+        const session = await Session.findOne({ _id : sessionId });
+        
+        if(!session){
+            return res.status(401).json(new NResposne(
+                0,
+                "No such session found",
+                "",
+                []
+            ))
+        };
+
+        session.mentorMessage = message;
+        const result = session.save();
+
+        console.log("cancle session result => ", result);
+        return res.status(201).json(new NResposne(
+            0,
+            "Session canceled",
+            "",
+            []
+        ))
+    }
+    catch (err){
+        console.log("Error in cancel session => ",err);
+        return req.status(500).json(new NResposne(
+            0,
+            "Internal server error",
+            "",
+            []
+        ))
+    };
+};

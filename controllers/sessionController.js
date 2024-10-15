@@ -31,3 +31,11 @@ module.exports.approve_session = async (req, res) => {
         { sessionId } = req.body
     );
 };
+
+module.exports.cancel_session = async (req, res) => {
+    return await services.handleCancel(
+        req,
+        res,
+        { sessionId, reason } = req.body
+    );
+};

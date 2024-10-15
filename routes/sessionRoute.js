@@ -7,5 +7,6 @@ router.post('/post/session', isAuthorized, controller.post_session);
 router.put('/update/session', isAuthorized ,controller.update_session);
 router.delete('/delte/session', isAuthorized ,controller.delete_session);
 router.post('/approve/session', isAuthorized, controller.approve_session);
+router.post('/cancel/session', isAuthorized, controller.cancel_session);
 
 module.exports = router;
