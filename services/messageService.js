@@ -166,6 +166,42 @@ module.exports.handleDeleteMessage = async (req, res, params) => {
     }
 };
 
+module.exports.handleUpdateMessage = async(req, res, params) => {
+    try{
+        const { messageId, message } = params;
+        const msg = await Message.findOne({ _id : messageId });
+
+        if(!msg){
+            return res.status(401).json(new NResponse(
+                0,
+                "No such message found",
+                "",
+                []
+            ))
+        };
+
+        msg.message = message;
+        const result = msg.save();
+
+        console.log("message update result => ", result);
+        return res.status(201).json(new NResposne(
+            1,
+            "Message updated",
+            "",
+            []
+        ));
+    }
+    catch (err){
+        console.log("Error in deleting message", err);
+        return new NResponse(
+            0,
+            "Something went wrong, please check your internet connection or try again later",
+            "",
+            err
+        );
+    };
+};
+
 // function decryptMessage(encryptedMessage) {
 //     const [ivHex, encryptedText] = encryptedMessage.split(':');
 //     const iv = Buffer.from(ivHex, 'hex');
