@@ -90,7 +90,56 @@ module.exports.handleLogin = async (req, res, params) => {
             []
         ));
     }
-}
+};
+
+module.exports.handleDelete = async(req, res, params) => {
+    const { email, password } = params;
+    if(!email || !password){
+        return new NResposne(
+            0,
+            "Wrong credentials",
+            "",
+            []
+        )
+    };
+
+    const user = await User.findOne({ email });
+    if(!user){
+        return new NResposne(
+            0,
+            "User not found",
+            "",
+            []
+        )
+    };
+
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+        return res.status(401).json(new NResposne(
+            0,
+            "Wrong password",
+            '',
+            []
+        ))
+    };
+
+    const result = await User.deleteOne({ email});
+    if(result.deleteCount == 0){
+        return res.status(401).json(new NResposne(
+            0,
+            "Failed to delete, please try again later",
+            '',
+            []
+        ))
+    };
+
+    return res.status(201).json(new NResposne(
+        0,
+        `${email} deleted`,
+        '',
+        []
+    ));
+};
 
 function handleErrors(err) {
     let errors = { email: '', password: '' }
