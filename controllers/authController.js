@@ -19,4 +19,4 @@ module.exports.signup_get = async (req, res) => {
 
 module.exports.login_get = async (req, res) => {
     res.status(200).json("Login Page")
-};
+};           
