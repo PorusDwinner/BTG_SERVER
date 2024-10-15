@@ -106,12 +106,12 @@ module.exports.handleMarkMessageRead = async (req, res, params) => {
         const result = msg.save();
         console.log("message save result => ", result);
 
-        return new NResponse(
-            0,
+        return res.status.json(new NResponse(
+            1,
             "Success",
             "",
             []
-        );
+        ));
     }
     catch (err) {
         console.log("Error in mark msg read",err);
