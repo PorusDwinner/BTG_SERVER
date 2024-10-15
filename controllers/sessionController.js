@@ -23,3 +23,11 @@ module.exports.delete_session = async (req, res) => {
         { sessionId, date } = req.body
     );
 };
+
+module.exports.approve_session = async (req, res) => {
+    return await services.handleApprove(
+        req, 
+        res, 
+        { sessionId } = req.body
+    );
+};

@@ -90,7 +90,7 @@ module.exports.handleUpdate = async (req, res, params) => {
         };
 
         session.schedultDateTime = date;
-        const result = session.save();
+        const result = await session.save();
         console.log("session update result => ", result);
 
         return res.status(201).json(new NResposne(
@@ -152,6 +152,42 @@ module.exports.handleDelete = async (req, res, params) => {
     }
     catch (err) {
         console.log("Error in delete session => ",err);
+        return req.status(500).json(new NResposne(
+            0,
+            "Internal server error",
+            "",
+            []
+        ))
+    };
+};
+
+module.exports.handleApprove = async(req, res, params) => {
+    try{
+        const { sessionId } = params;
+        const session = await Session.findOne({ _id : sessionId });
+
+        if(!session){
+            return res.status(401).json(new NResposne(
+                0,
+                "No such session found",
+                "",
+                []
+            ))
+        };
+
+        session.status = true;
+        const result = await session.save();
+
+        console.log("approve session result => ", result);
+        return res.status(201).json(new NResposne(
+            0,
+            "Session approved",
+            "",
+            []
+        ))
+    }
+    catch (err) {
+        console.log("Error in approve session => ",err);
         return req.status(500).json(new NResposne(
             0,
             "Internal server error",

@@ -103,7 +103,7 @@ module.exports.handleMarkMessageRead = async (req, res, params) => {
             )
         };
         msg.isRead = true;
-        const result = msg.save();
+        const result = await msg.save();
         console.log("message save result => ", result);
 
         return res.status.json(new NResponse(
@@ -181,7 +181,7 @@ module.exports.handleUpdateMessage = async(req, res, params) => {
         };
 
         msg.message = message;
-        const result = msg.save();
+        const result = await msg.save();
 
         console.log("message update result => ", result);
         return res.status(201).json(new NResposne(
