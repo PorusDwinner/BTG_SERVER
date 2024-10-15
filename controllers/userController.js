@@ -11,3 +11,11 @@ module.exports.get_dp = async(req, res) => {
 module.exports.update_profile = async(req, res) => {
     
 };
+
+module.exports.update_dp = async(req, res) => {
+    
+};
+
+module.exports.post_dp = async(req, res) => {
+
+};
