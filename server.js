@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 const authRoutes = require('./routes/authRoute');
 const messageRoutes = require('./routes/messageRoute');
+const sessionRoutes = require('./routes/sessionRoute');
 const bodyParser = require('body-parser');
 
 require('dotenv').config();
@@ -24,3 +25,4 @@ mongoose.connect(process.env.URI)
 
 app.use(authRoutes);
 app.use(messageRoutes);
+app.use(sessionRoutes);
