@@ -13,10 +13,8 @@ module.exports.login_post = async (req, res) => {
     return await services.handleLogin(req, res, params);
 };
 
-module.exports.signup_get = async (req, res) => {
-    res.status(200).json("Signup Page")
-};
-
-module.exports.login_get = async (req, res) => {
-    res.status(200).json("Login Page")
-};
+module.exports.delete_user = async (req, res) => {
+    const { email, password } = req.body;
+    let params = { email, password};
+    return await services.handleDelete(req, res, {email, password} = req.body);
+}
