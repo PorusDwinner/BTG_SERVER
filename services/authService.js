@@ -11,7 +11,12 @@ module.exports.handleSignup = async (req, res, params) => {
     try {
         const user = await User.create({ email, password });
         const token = createToken(user._id);
-        res.cookie('token', token, { httpOnly: true, maxAge: expiry });
+        res.cookie('token', token, {
+             maxAge: expiry,
+             httpOnly: true, 
+             // secure: process.env.NODE_ENV === 'production',  // Only set `secure` to true in production (HTTPS)
+             sameSite: 'None',  // Allows cross-origin cookies
+            });
         return res.status(201).json(
             new NResposne(
                 1,
@@ -37,61 +42,37 @@ module.exports.handleSignup = async (req, res, params) => {
 
 module.exports.handleLogin = async (req, res, params) => {
     try {
-        const { email, password } = params;
-        if (!email || !password) {
-            return res.status(400).json(new NResposne(
-                0,
-                "Wrong credentials",
-                '',
-                []
-            ));
-        }
-
-        const user = await User.findOne({ email });
-        if (!user) {
-            return res.status(401).json(new NResposne(
-                0,
-                "No such user found",
-                '',
-                []
-            ));
-        };
-
-        const isMatch = await bcrypt.compare(password, user.password);
-        if (!isMatch) {
-            return res.status(401).json(new NResposne(
-                0,
-                "Wrong password",
-                '',
-                []
-            ))
-        };
-
-        // const token = jwt.sign(
-        //     { id: user._id, email: user.email },
-        //     jwtKey,
-        //     { expiresIn: expiry }
-        // );
-
-        const token = createToken(user._id, user.email);
-        return res.status(200).json(new NResposne(
-
-            1,
-            "Login Succesfull",
-            token,
-            user
-        ));
+      const { email, password } = params;
+  
+      if (!email || !password) {
+        return res.status(400).json(new NResposne(0, "Wrong credentials", '', []));
+      }
+  
+      const user = await User.findOne({ email });
+      if (!user) {
+        return res.status(401).json(new NResposne(0, "No such user found", '', []));
+      }
+  
+      const isMatch = await bcrypt.compare(password, user.password);
+      if (!isMatch) {
+        return res.status(401).json(new NResposne(0, "Wrong password", '', []));
+      }
+  
+      const token = createToken(user._id, user.email);
+  
+      res.cookie('token', token, {
+        httpOnly: true, 
+        // secure: process.env.NODE_ENV === 'production',  // Only set `secure` to true in production (HTTPS)
+        sameSite: 'None', 
+        maxAge: expiry ,
+      });
+  
+      return res.status(200).json(new NResposne(1, "Login Successful", token, user));
+    } catch (err) {
+      console.error(err);
+      return res.status(500).json(new NResposne(0, 'Internal server error', '', []));
     }
-    catch (err) {
-        console.error(err);
-        return res.status(500).json(new NResposne(
-            0,
-            'Internal server error',
-            '',
-            []
-        ));
-    }
-};
+  };
 
 module.exports.handleDelete = async (req, res, params) => {
     try {
