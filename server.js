@@ -5,11 +5,18 @@ const authRoutes = require('./routes/authRoute');
 const messageRoutes = require('./routes/messageRoute');
 const sessionRoutes = require('./routes/sessionRoute');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 
 require('dotenv').config();
 const port = process.env.PORT || 3002;
 
 const app = express();
+app.use(cors({
+    origin: process.env.URL, // The URL of your frontend
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'], // Add headers as needed
+    credentials: true,
+  }));
 app.use(express.json());
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended : true }));
