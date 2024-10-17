@@ -12,23 +12,24 @@ const port = process.env.PORT || 3002;
 
 const app = express();
 app.use(cors({
-    origin: process.env.URL, // The URL of your frontend
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization'], // Add headers as needed
-    credentials: true,
-  }));
+  origin: process.env.URL, 
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'], 
+  credentials: true,
+}));
 app.use(express.json());
 app.use(cookieParser());
-app.use(bodyParser.urlencoded({ extended : true }));
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // CONNECT TO DB => START SERVER IF CONNECTION SUCCESFULL
 mongoose.connect(process.env.URI)
-.then(res => {
-    app.listen(port);
+  .then(res => {
     console.log(`DB Connected`);
-    console.log(`Server live on ${port}`);
-})
-.catch (err => console.log(`Db connection failed : ${err}`));
+    app.listen(port, () => {
+      console.log(`Server live on ${port}`);
+    });
+  })
+  .catch(err => console.log(`Db connection failed : ${err}`));
 
 app.use(authRoutes);
 app.use(messageRoutes);
