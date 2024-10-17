@@ -9,7 +9,11 @@ module.exports.get_dp = async(req, res) => {
 };
 
 module.exports.update_profile = async(req, res) => {
-    
+    return await services.handleUpdateProfile(
+        req,
+        res,
+        { } = req.body
+    );
 };
 
 module.exports.update_dp = async(req, res) => {
