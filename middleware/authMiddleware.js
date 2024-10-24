@@ -4,7 +4,7 @@ require('dotenv').config();
 const jwtKey = process.env.JWT_SECRET;
 
 const isAuthorized = (req, res, next) => {
-    const authToken = req.cookie.token;
+    const authToken = req.cookies.token;
     if (authToken) {
         jwt.verify(authToken, jwtKey, (err, decodedToken) => {
             if (err) {

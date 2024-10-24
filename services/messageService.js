@@ -42,6 +42,15 @@ module.exports.handleGetMessage = async (req, res, params) => {
 module.exports.handlePostMessage = async (req, res, params) => {
     const { senderId, recieverId, message } = params;
     try {
+        if(!recieverId || !senderId || !message){
+            res.status(401).json(new NResponse(
+                0,
+                "Null parameter error",
+                "",
+                ""
+            ));
+        };
+
         const sender = await User.findOne({ _id: senderId });
         const reciever = await User.findOne({ _id: recieverId });
         if (!sender || !reciever) {
@@ -89,8 +98,16 @@ module.exports.handlePostMessage = async (req, res, params) => {
 module.exports.handleMarkMessageRead = async (req, res, params) => {
     try {
         const { messageId, recieverId } = params;
-        const msg = await Message.findOne({ _id: messageId, recieverId: recieverId });
+        if (!messageId || !recieverId) {
+            return new NResponse(
+                0,
+                "Null parameter error",
+                "",
+                []
+            );
+        };
 
+        const msg = await Message.findOne({ _id: messageId, recieverId: recieverId });
         if (!msg) {
             return new NResponse(
                 0,
@@ -124,8 +141,16 @@ module.exports.handleMarkMessageRead = async (req, res, params) => {
 module.exports.handleDeleteMessage = async (req, res, params) => {
     try {
         const { messageId, recieverId } = params;
-        const msg = await Message.findOne({ _id: messageId, recieverId: recieverId });
+        if (!messageId || !recieverId) {
+            return new NResponse(
+                0,
+                "Null parameter error",
+                "",
+                []
+            );
+        };
 
+        const msg = await Message.findOne({ _id: messageId, recieverId: recieverId });
         if (!msg) {
             return new NResponse(
                 0,
@@ -166,8 +191,16 @@ module.exports.handleDeleteMessage = async (req, res, params) => {
 module.exports.handleUpdateMessage = async(req, res, params) => {
     try{
         const { messageId, message } = params;
-        const msg = await Message.findOne({ _id : messageId });
+        if (!messageId || !message) {
+            return new NResponse(
+                0,
+                "Null parameter error",
+                "",
+                []
+            );
+        };
 
+        const msg = await Message.findOne({ _id : messageId });
         if(!msg){
             return res.status(401).json(new NResponse(
                 0,
@@ -181,7 +214,7 @@ module.exports.handleUpdateMessage = async(req, res, params) => {
         const result = await msg.save();
 
         console.log("message update result => ", result);
-        return res.status(201).json(new NResposne(
+        return res.status(201).json(new NResponse(
             1,
             "Message updated",
             "",
